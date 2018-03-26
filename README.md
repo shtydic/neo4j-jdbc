@@ -1,4 +1,4 @@
-                    #neo4j研究报告#
+                    ## 简介 ##
 
 
 ### 简介 ###
@@ -291,14 +291,14 @@
 	
 	1. String findInCompanion(Object startObj,Object relationship,int count,String... whereProp);
 	场景模拟
-	* 根据某个特定的节点和关系查询相对应的节点  如  查询某个人所乘所有航班中一同乘过三次以上的人，其中包括同一航班不同班次的问题
+	* 根据某个特定的节点和关系查询相对应的节点  如  同一节点跟不同的节点交集多次，查询出交集多次的节点
 	
 	Cypher语句
 		1.	match (a:Person{person_id:'141221199013721258'})-[r:Travel]-(b) with b as b1,r as r1 match (p:Person)-[x:Travel]->(b1) where x.flight_number = r1.flight_number and x.a = r1.a and x.b = r1.b and x.c = r1.c and x.d = r1.d and x.e = r1.e and x.f = r1.f  return (p),count(x)>3,count(x)
 		
 		2.	match (a:Person{person_id:'141221199013721258'})-[r:Travel]-(b) with b as b1,r as r1 match (p:Person)-[x:Travel]->(b1) where x.flight_number = r1.flight_number return (p),count(b1)>3,count(b1)
 	
-	分析：在这种情况下2的语句只绑定了航班的id但并没有考虑到每个航班各个时间点都有可能会起飞，这样用第二条语句就会出现数据冗余，返回结果不对，所以建议根据合适的情况绑定不同的数据，如案例中的人与航班及他们的搭乘关系，考虑到不同航班不同时间的时间所一起搭乘的人，在这里必须给予他两个必要的条件，第一个就是搭乘条件必须要有航班的id，第二个就是搭乘航班的时间，不同的场景下想用该API必须具备这种思维才能正确使用
+	分析：绑定id确定不同的节点，给予时间属性，区分不同时间段多次交集的节点
 
     API使用 
 
@@ -328,12 +328,12 @@
 	
 	2. Map<Object,String> findInCompanionAll(List<Object> startObjList,Object relationship,int count,String... whereProp);
 	参考findInCompanion 的API
-	场景及api分析
-	场景同标签一的一样，唯一不同在于把单人所有同行乘客变成一群人所有对应的同行乘客，返回值为Map<Object,String>  Object和String对应的就是哪一个人（Object）对应的所有同行乘客(String)
+	场景及api分析：多节点对应的群体节点关系
+	
 	
 	3. String findSameNode(Object startNodeName,Object relationshipModel,List<Object> rsNode);
 	场景模拟
-	找出具有“房多多”“钱多多”“农民”这些相同标签的某些人
+	找出具有相同标签的某些人
 	
 	Cypher语句
 	match (a:Person{})-[r:Nexus{name:'标签'}]->(b:Lable{name:'农民'})  with a AS a1 match (a1)-[r:Nexus{name:'标签'}]->(b:Lable{name:'房多多'}) with a1 AS a2  match (a2)-[r:Nexus{name:'标签'}]->(b:Lable{}) return (a2)
@@ -345,7 +345,7 @@
 	* @param relationshipModel     开始节点和需要的节点之间的关系案例代表为  标签
 	对应（r:Nexus）传入的是一个关系类型的对象
 	
-	* @param rsNode             startNode需要具备的节点条件    案例代表：标签为：钱多多，房多多的标签节点
+	* @param rsNode             startNode需要具备的节点条件    案例代表
 	 对应的是每次过滤的条件 （b:Label{name=’农民’}）
 
 
