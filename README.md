@@ -125,7 +125,7 @@
 ## WhereModel ##
 	简介：组成where条件的类,该类只能在Match实例化出来的时候才可以使用，里面所有的方法参数依赖Match构造出来的条件
  
-	 ![image](https://github.com/shtydic/neo4j-jdbc/blob/master/neo4jImg/WhereModel.jpg)
+![image](https://github.com/shtydic/neo4j-jdbc/blob/master/neo4jImg/WhereModel.jpg)
 
 
 ## ReturnModel ##
