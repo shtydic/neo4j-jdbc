@@ -1,6 +1,8 @@
                     ## neo4j研究报告 ##
 
 
+ ![image](https://github.com/shtydic/neo4j-jdbc/blob/master/Master_structure.png)
+
 ### 简介 ###
 	你可以把Neo看作是一个高性能的图引擎，该引擎具有成熟和健壮的数据库的所有特性。
 	程序员工作在一个面向对象的、灵活的网络结构下而不是严格、静态的表中——但是他们可以享受到具备完全的事务特性、企业级的数据库的所有好处。 
