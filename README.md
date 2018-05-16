@@ -1,7 +1,7 @@
                     ## neo4j研究报告 ##
 
 
- ![image](https://github.com/ButBueatiful/dotvim/raw/master/screenshots/vim-screenshot.jpg)
+ ![image](https://github.com/shtydic/neo4j-jdbc/blob/master/Master_structure.png)
 
 ### 简介 ###
 	你可以把Neo看作是一个高性能的图引擎，该引擎具有成熟和健壮的数据库的所有特性。
