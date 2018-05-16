@@ -131,11 +131,10 @@
 	简介：该类是结果元素的类，该类只能在Match实例化出来的时候才可以使用，里面所有的方法参数依赖Match构造出来的条件
 	![image](https://github.com/shtydic/neo4j-jdbc/blob/master/neo4jImg/ReturnModel.jpg)
 
- 
 ## AttrDisplayModel ##
 	控制属性展示形式的类
- 	![image](https://github.com/shtydic/neo4j-jdbc/blob/master/neo4jImg/AttrModel.jpg)
-	
+ 	
+![image](https://github.com/shtydic/neo4j-jdbc/blob/master/neo4jImg/AttrModel.jpg)
 	注意事项
 		1.	给节点或者关系起别名的时候有些符号是不符合Neo4j的规范的，如“-”
 		2.	给关系深度的同时，关系不能在具有条件查询
