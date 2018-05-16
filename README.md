@@ -8,15 +8,6 @@
 	网络（从数学角度叫做图）是一个灵活的数据结构，可以应用更加敏捷和快速的开发模式。
 ## 什么是图数据库 ##
 	图数据库用图来存储数据，是最接近高性能的一种用于存储数据的数据结构方式之一。
-# 为什么我们选择neo4j #
-	我们在做数据可视化的时候发现neo4j更加适合我们，我们在使用系型数据库时常常会遇到一系列非常复杂的设计问题。例如一部电影中的各个演员常常有主角配角之分，还要有导演，特效等人员的参与。通常情况下这些人员常常都被抽象为Person类型，对应着同一个数据库表。同时一位导演本身也可以是其它电影或者电视剧的演员，更可能是歌手，甚至是某些影视公司的投资者。而这些影视公司则常常是一系列电影，电视剧的资方。这种彼此关联的关系常常会非常复杂，而且在两个实体之间常常同时存在着多个不同的关系：在尝试使用关系型数据库对这些关系进行建模时，我们首先需要建立表示各种实体的一系列表：表示人的表，表示电影的表，表示电视剧的表，表示影视公司的表等等。这些表常常需要通过一系列关联表将它们关联起来：通过这些关联表来记录一个人到底参演过哪些电影，参演过哪些电视剧，唱过哪些歌，同时又是哪些公司的投资方。同时我们还需要创建一系列关联表来记录一部电影中哪些人是主角，哪些人是配角，哪个人是导演，哪些人是特效等。可以看到，我们需要大量的关联表来记录这一系列复杂的关系。在更多实体引入之后，我们将需要越来越多的关联表，从而使得基于关系型数据库的解决方案繁琐易错。
-	这一切的症结主要在于关系型数据库是以为实体建模这一基础理念设计的。该设计理念并没有提供对这些实体间关系的直接支持。在需要描述这些实体之间的关系时，我们常常需要创建一个关联表以记录这些数据之间的关联关系，而且这些关联表常常不用来记录除外键之外的其它数据。也就是说，这些关联表也仅仅是通过关系型数据库所已有的功能来模拟实体之间的关系。这种模拟导致了两个非常糟糕的结果：数据库需要通过关联表间接地维护实体间的关系，导致数据库的执行效能低下；同时关联表的数量急剧上升。
-	在需要描述大量关系时，传统的关系型数据库已经不堪重负。它所能承担的是较多实体但是实体间关系略显简单的情况。而对于这种实体间关系非常复杂，常常需要在关系之中记录数据，而且大部分对数据的操作都与关系有关的情况，原生支持了关系的图形数据库才是正确的选择。它不仅仅可以为我们带来运行性能的提升，更可以大大提高系统开发效率，减少维护成本。
-    在一个图形数据库中，数据库的最主要组成主要有两种，结点集和连接结点的关系。结点集就是图中一系列结点的集合，比较接近于关系数据库中所最常使用的表。而关系则是图形数据库所特有的组成。
-	在需要表示多对多关系时，我们常常需要创建一个关联表来记录不同实体的多对多关系，而且这些关联表常常不用来记录信息。如果两个实体之间拥有多种关系，那么我们就需要在它们之间创建多个关联表。而在一个图形数据库中，我们只需要标明两者之间存在着不同的关系，例如用DirectBy关系指向电影的导演，或用ActBy关系来指定参与电影拍摄的各个演员。同时在ActBy关系中，我们更可以通过关系中的属性来表示其是否是该电影的主演。而且从上面所展示的关系的名称上可以看出，关系是有向的。如果希望在两个结点集间建立双向关系，我们就需要为每个方向定义一个关系。
-	也就是说，相对于关系数据库中的各种关联表，图形数据库中的关系可以通过关系能够包含属性这一功能来提供更为丰富的关系展现方式。因此相较于关系型数据库，图形数据库的用户在对事物进行抽象时将拥有一个额外的武器，那就是丰富的关系
-	因此在为图形数据库定义数据展现时，我们应该以一种更为自然的方式来对这些需要展现的事物进行抽象：首先为这些事物定义其所对应的结点集，并定义该结点集所具有的各个属性。接下来辨识出它们之间的关系并创建这些关系的相应抽象。
-	由此可以看出图数据库大大简化了传统数据库的复杂程度，并可以提高效率的
 
 # neo4j亮点简谈 #
 	1. 完整的ACID支持
@@ -28,9 +19,6 @@
 	7. 数据库操作的速度并不会随着数据库的增大有明显的降低。这得益于Neo4j特殊的数据存储结构和专门优化的图算法。
     8. 数据存储： Neo4j对于图的存储自然是经过特别优化的。不像传统数据库的一条记录一条数据的存储方式，Neo4j的存储方式是：节点的类别，属性，边的类别，属性等都是分开存储的，这将大大有助于提高图形数据库的性能。 
     9. 数据读写：在Neo4j中，存储节点时使用了"index-free adjacency"，即每个节点都有指向其邻居节点的指针，可以让我们在O(1)  O(1) 的时间内找到邻居节点。另外，按照官方的说法，在Neo4j中边是最重要的,是"first-class entities"，所以单独存储，这有利于在图遍历的时候提高速度，也可以很方便地以任何方向进行遍历。
-    总结：
-		适当的ACID操作是保证数据一致性的基础。Neo4j确保了在一个事务里面的多个操作同时发生，保证数据一致性。不管是采用嵌入模式还是多服务器集群部署，都支持这一特性。
-		可靠的图型存储可以非常轻松的集成到任何一个应用中。随着我们开发的应用在运营中不断发展，性能问题肯定会逐步凸显出来，而Neo4j不管应用如何变化，他只会受到计算机硬件性能的影响，不受业务本身的约束。部署一个neo4j服务器便可以承载上亿级的节点和关系。当然，当单节点无法承载我们的数据需求时，我们可以进行分布式集群部署。将图数据库用于存储关系复杂的数据是他最大的优势。通过Neo4j提供的遍历工具，可以非常高效的进行数据检索，每秒可以达到上亿级的检索量。一个检索操作类似于RDBMS里面的连接（_join_）操作。
 
 
 # 安装 #
@@ -55,39 +43,7 @@
 	//创建Sally这个Person类型的结点，该结点的name属性为Sally，age属性为32
 	CREATE (sally:Person { name: 'Sally', age: 32 })
 	CREATE (john:Person { name: 'John', age: 27 })
-	 
 	
-	// 创建Graph Databases一书所对应的结点
-	CREATE (gdb:Book { title: 'Graph Databases',authors: ['Ian Robinson', 'Jim Webber'] })
-	
-	// 在Sally和John之间建立朋友关系，这里的since值应该是timestamp。请自行回忆各位的日期是如何在关系数据库中记录的
-	CREATE (sally)-[:FRIEND_OF { since: 1357718400 }]->(john)
-	// 在Sally和Graph Databases一书之间建立已读关系
-	CREATE (sally)-[:HAS_READ { rating: 4, on: 1360396800 }]->(gdb)
-	// 在John和Graph Databases一书之间建立已读关系
-	CREATE (john)-[:HAS_READ { rating: 5, on: 1359878400 }]->(gdb)
-	
-	整体关系图：
-		
-	 
-	
-	
-	
-	## 一次创建多节点 ##
-	MATCH (a:PersonTo{name:'测试1',age:'25'}),(b:PersonTo{name:'测试4',age:'28'}) create (a)-[r:GxTest{gxInfo:'第一条测试数据',gxName:'同事'}]->(b) return (r)
-	删除节点
-	删除节点必须删除该节点的所有关系，否则会报错，提示该节点存在关系无法删除
-	 
-	解决方案：
-	match (n:Person{name:'李四'})-[r]-() delete r
-	 
-	match (n:Person{name:'李四'}) delete (n)
-	 
-	
-	删除案例，语句整合(该语句在删除没有关系的节点时候并不起任何作用，只能用在删除有关系的节点上)：
-	match (n:Person{name:'John'})-[r]-() delete (r),(n)
-  
-
 #创建索引#
 	SchemaIndex:模型索引
 
@@ -141,49 +97,6 @@
 	注意事项
 		1.	给节点或者关系起别名的时候有些符号是不符合Neo4j的规范的，如“-”
 		2.	给关系深度的同时，关系不能在具有条件查询
- 
-	综合示例
-	组成的neo4j语句
-		MATCH (p:Person{gender:'男',height:'1.96m'})-[guanxi:Person{gender:'男',name:'我是关系'}]-(p2:Person{gender:'男',name:'22222'})-[guanxi2222:Person{gender:'男',name:'我是关系22222',height:'1.96m'}]-(p:Person{gender:'男',height:'1.96m'})( WHERE p.name Contains '李' and p2.height > '1.96m') or guanxi.height >= '1.96m' RETURN (p)
-	组成的测试代码
-		Person p = new Person();
-		p.setGender("男");
-		p.setHeight("1.96m");
-		p.setName("李");
-		
-		Person guanxi = new Person();
-		guanxi.setGender("男");
-		guanxi.setHeight("1.96m");
-		guanxi.setName("我是关系");
-		
-		Person guanxi2 = new Person();
-		guanxi2.setGender("男");
-		guanxi2.setHeight("1.96m");
-		guanxi2.setName("我是关系22222");
-		
-		Person p2 = new Person();
-		p2.setGender("男");
-		p2.setHeight("1.96m");
-		p2.setName("22222");
-		
-		Master m = new Master();
-		NodeModel nodel = m.createNodeModel().createWhereNodeObj("p", p);
-		System.out.println("节点：" + nodel.nodeStr());
-		
-		NodeModel nodel2 = m.createNodeModel().createWhereNodeObj("p2", p2);
-		RelationshipModel r = m.createRelationshipModel().createWhereRelationshipObj("guanxi", guanxi);
-		RelationshipModel r2 = m.createRelationshipModel().createWhereRelationshipObj("guanxi2222", guanxi2);
-		
-		String where1 = nodel.addContain("name");
-		String where2 = nodel2.addGt("height");
-		String where3 = r.addGtEq("height");
-		m.createWhereModel().includeStart().start(where1).and(where2).includeEnd().or(where3);
-		
-		String a = m.start(nodel, r, nodel2, DirType.eq).addNote(r2, nodel).addResult(nodel).createComplexQueryStr();
-		System.out.println(a);
-
-## 代码解析 ##
- 
  
 # Neo4j场景api设计 #
 	简介
