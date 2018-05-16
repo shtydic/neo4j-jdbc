@@ -106,19 +106,19 @@
 	match (n:People) where n.ZWXM="菜菜" set n.ZWXM="谢楠玉",n.name="谢楠玉",n.PYZWXM="xienanyu" return (n);
 
 
-# Neo4j   组成类api 设计 #
+# Neo4j   组成类api 设计 #
 ## Master ##
-	简洁：组成neo4j语句的核心内，所有元素均在此类中的生成
+	简介：组成neo4j语句的核心内，所有元素均在此类中的生成
  
 ![image](https://github.com/shtydic/neo4j-jdbc/blob/master/neo4jImg/Master.jpg)
 
 ## NodeModel ##
-	简洁：组成节点元素的类
+	简介：组成节点元素的类
 
 ![image](https://github.com/shtydic/neo4j-jdbc/blob/master/neo4jImg/NodeModel.jpg)
 
 ## RelationshipModel ##
-	简洁：组成关系元素的类
+	简介：组成关系元素的类
 	
 ![image](https://github.com/shtydic/neo4j-jdbc/blob/master/neo4jImg/RelationshipModel.jpg)
 	
